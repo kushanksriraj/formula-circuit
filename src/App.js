@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router";
-import { Landing, PrivateRoute, UndefinedRoute } from "./helpers/Components";
+import { Landing, PrivateRoute, UndefinedRoute } from "./common/Components";
 import "./App.css";
 
 export const Login = () => {
