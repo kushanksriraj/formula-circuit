@@ -1,9 +1,11 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { logOutUserAsync } from "../../features/user/userSlice";
 
 export const useAxios = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const setAxiosBaseURL = (BASE_URL) => {
     axios.defaults.baseURL = BASE_URL;
   };
@@ -14,8 +16,9 @@ export const useAxios = () => {
       (response) => response,
       (error) => {
         if (error?.response?.status === UNAUTHORIZED) {
-          // logOutUser();
-          navigate("/login", { replace: true });
+          dispatch(logOutUserAsync()).then(() =>
+            navigate("/login", { replace: true })
+          );
         }
         return Promise.reject(error);
       }
