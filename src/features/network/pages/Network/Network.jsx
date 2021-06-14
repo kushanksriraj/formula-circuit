@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import {
   followUserAsync,
+  getLoadingStatus,
   getUserData,
   unFollowUserAsync,
 } from "../../../user/userSlice";
@@ -11,12 +12,15 @@ import axios from "axios";
 export const Network = ({ isCurrentUser }) => {
   const { username } = useParams();
   const currentUserData = useSelector(getUserData);
+  const userLoading = useSelector(getLoadingStatus);
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const mountRef = useRef({ isMounted: false });
   const currentUser = isCurrentUser || data?._id === currentUserData._id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log({ currentUserData, userLoading });
 
   useEffect(() => {
     mountRef.current.isMounted = true;
@@ -54,6 +58,7 @@ export const Network = ({ isCurrentUser }) => {
 
   return (
     <div>
+      {(userLoading || loading) && <div>Loading...</div>}
       <h2 className="font-bold">{data?.name}</h2>
       <header className="font-bold">Followers</header>
       {data?.followersList?.map((user) => {

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Route, Routes } from "react-router";
 import {
   Landing,
@@ -18,10 +18,12 @@ import { getUserDataAsync } from "../features/user/userSlice";
 function App() {
   const { setAxiosAuthHeader, setAxiosBaseURL, setAxiosIntercept } = useAxios();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   const appNode = useCallback(() => {
     (async () => {
       try {
+        setLoading(true);
         setAxiosBaseURL(BASE_URL);
         setAxiosIntercept();
         const localLoginData = localStorage.getItem("login");
@@ -29,10 +31,10 @@ function App() {
           const loginData = JSON.parse(localLoginData);
           setAxiosAuthHeader(loginData.token);
         }
-        dispatch(getUserDataAsync());
+        dispatch(getUserDataAsync()).then(() => setLoading(false));
       } catch (err) {
+        setLoading(false);
         console.error(err);
-      } finally {
       }
     })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -44,13 +46,33 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <PrivateRoute path="/feed" element={<Feed />} />
-        <PrivateRoute path="/notification" element={<Notification />} />
-        <PrivateRoute path="/post/:id" element={<Post />} />
-        <PrivateRoute path="/profile" element={<Profile isCurrentUser />} />
-        <PrivateRoute path="/user/:username/profile/" element={<Profile />} />
-        <PrivateRoute path="/network" element={<Network isCurrentUser />} />
-        <PrivateRoute path="/user/:username/network" element={<Network />} />
+        <PrivateRoute path="/feed" element={<Feed />} loading={loading} />
+        <PrivateRoute
+          path="/notification"
+          element={<Notification />}
+          loading={loading}
+        />
+        <PrivateRoute path="/post/:id" element={<Post />} loading={loading} />
+        <PrivateRoute
+          path="/profile"
+          element={<Profile isCurrentUser />}
+          loading={loading}
+        />
+        <PrivateRoute
+          path="/user/:username/profile/"
+          element={<Profile />}
+          loading={loading}
+        />
+        <PrivateRoute
+          path="/network"
+          element={<Network isCurrentUser />}
+          loading={loading}
+        />
+        <PrivateRoute
+          path="/user/:username/network"
+          element={<Network />}
+          loading={loading}
+        />
         <Route path="*" element={<UndefinedRoute />} />
       </Routes>
     </div>

@@ -32,7 +32,7 @@ export const Login = () => {
   return (
     <>
       {isUserLoggedIn && <Navigate to={pathRef.current?.from || "/"} replace />}
-      {userLoading && <div>Loading...........</div>}
+      {userLoading && <div>Loading..... in login page</div>}
       <div className="">
         <div className="">
           <h2>Log in to continue</h2>
@@ -59,7 +59,9 @@ export const Login = () => {
             </div>
             <div className="">{error}</div>
             <div className="">
-              <button className="border" type="submit">LOG IN</button>
+              <button className="border" type="submit">
+                LOG IN
+              </button>
             </div>
           </form>
           <div className="">

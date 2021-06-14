@@ -19,7 +19,8 @@ export const logUserAsync = createAsyncThunk(
       }
       return res.data;
     } catch (error) {
-      console.error(error);
+      console.log("ERROR MESSAGE: ", error.message);
+      return Promise.reject(error.message);
     }
   }
 );
@@ -66,6 +67,7 @@ export const getUserDataAsync = createAsyncThunk("user/getData", async () => {
 export const logOutUserAsync = createAsyncThunk(
   "user/logOut",
   async (_, thunk) => {
+    localStorage.removeItem("login");
     thunk.dispatch(logOutUser());
   }
 );
@@ -153,7 +155,14 @@ export const userSlice = createSlice({
       if (action.payload.success) {
         state.isUserLoggedIn = true;
         state.data = action.payload.user;
+        state.isError = false;
+        state.errorMessage = "";
       }
+    },
+    [logUserAsync.rejected]: (state, action) => {
+      state.userLoading = false;
+      state.isError = true;
+      state.errorMessage = action.error.message;
     },
 
     [getUserDataAsync.pending]: (state) => {
@@ -177,6 +186,8 @@ export const userSlice = createSlice({
       if (action.payload.success) {
         state.isUserLoggedIn = true;
         state.data = action.payload.user;
+        state.isError = false;
+        state.errorMessage = "";
       }
     },
 
@@ -214,7 +225,6 @@ export const userSlice = createSlice({
         );
       }
     },
-    // make extra reducers for error also
   },
 });
 

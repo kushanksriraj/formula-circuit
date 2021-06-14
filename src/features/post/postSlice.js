@@ -216,7 +216,9 @@ export const postSlice = createSlice({
       if (action.payload.success) {
         state.postList = state.postList.map((post) => {
           if (post._id === action.payload.updatedPost._id) {
-            return action.payload.updatedPost;
+            // return action.payload.updatedPost;
+            const content = action.payload.updatedPost.content;
+            return {...post, content};
           }
           return post;
         });

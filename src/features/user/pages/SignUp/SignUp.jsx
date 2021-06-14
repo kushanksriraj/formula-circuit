@@ -31,13 +31,6 @@ export const SignUp = () => {
 
     dispatch(signUpUserAsync({ name, username, email, password }));
 
-    // const response = await signUpUser({
-    //   name,
-    //   email,
-    //   password,
-    //   path: "/user/sign-up",
-    // });
-
     // !response && setError("Unable to sign up! Try again.");
   };
 
