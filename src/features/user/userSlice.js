@@ -50,7 +50,8 @@ export const signUpUserAsync = createAsyncThunk(
       }
       return res.data;
     } catch (error) {
-      console.error(error);
+      console.log("ERROR MESSAGE: ", error.message);
+      return Promise.reject(error.message);
     }
   }
 );
@@ -126,6 +127,7 @@ export const userSlice = createSlice({
     userLoading: true,
     isError: false,
     errorMessage: "",
+    initialLoading: true,
   },
   reducers: {
     logOutUser(state) {
@@ -144,6 +146,9 @@ export const userSlice = createSlice({
       state.userLoading = false;
       state.isError = false;
       state.errorMessage = "";
+    },
+    setInitialLoadingFalse(state) {
+      state.initialLoading = false;
     },
   },
   extraReducers: {
@@ -190,6 +195,11 @@ export const userSlice = createSlice({
         state.errorMessage = "";
       }
     },
+    [signUpUserAsync.rejected]: (state, action) => {
+      state.userLoading = false;
+      state.isError = true;
+      state.errorMessage = action.error.message;
+    },
 
     [updateUserDataAsync.pending]: (state, action) => {
       state.userLoading = true;
@@ -228,7 +238,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { logOutUser } = userSlice.actions;
+export const { logOutUser, setInitialLoadingFalse } = userSlice.actions;
 
 export default userSlice.reducer;
 
@@ -254,5 +264,18 @@ export const getUserToken = createSelector(
 
 export const getUserData = createSelector(
   (state) => state.user.data,
+  (value) => value
+);
+
+export const getInitialLoading = createSelector(
+  (state) => state.user.initialLoading,
+  (value) => value
+);
+
+export const getError = createSelector(
+  (state) => ({
+    isError: state.user.isError,
+    errorMessage: state.user.errorMessage,
+  }),
   (value) => value
 );

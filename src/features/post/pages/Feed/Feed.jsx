@@ -1,40 +1,19 @@
-import { useSelector, useDispatch } from "react-redux";
-import { getPostFeed, getFeedAsync } from "../../postSlice";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useSelector } from "react-redux";
+import { getPostFeed } from "../../postSlice";
+import { useState } from "react";
 import { CreatePost } from "./CreatePost";
 import { PostSnippet } from "./PostSnippet";
+import { Button } from "../../../../common/Components";
+import { PostLoading } from "./PostLoading";
+import { useFeed } from "./useFeed";
 
 export const Feed = () => {
   const { postList, hasMore, postLoading } = useSelector(getPostFeed);
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
-  const [ctr, setCtr] = useState(0);
-  const dispatch = useDispatch();
-  const observer = useRef();
+  const { lastPostElement } = useFeed();
 
-  useEffect(() => {
-    dispatch(getFeedAsync());
-  }, [ctr, dispatch]);
-
-  const lastPostElement = useCallback(
-    (node) => {
-      if (postLoading || !hasMore) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting && entries[0].intersectionRatio > 0.7) {
-            setCtr((ctr) => ctr + 1);
-          }
-        },
-        { threshold: [0, 0.5, 1] }
-      );
-      if (node) observer.current.observe(node);
-    },
-    [postLoading, hasMore]
-  );
-
-  // give a refresh button, reset feed state and reload the page
   return (
-    <div className="m-2 flex flex-col items-center">
+    <div className="flex flex-col items-center bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
       {postList.map((post, index) => {
         if (postList.length === index + 1) {
           return (
@@ -43,13 +22,15 @@ export const Feed = () => {
         }
         return <PostSnippet key={post._id} post={post} />;
       })}
-      {postLoading && <div className="fixed bottom-4">Loading..</div>}
+      {postLoading && <PostLoading />}
+      {!hasMore && (
+        <div className="font-semibold text-blue-400 mb-3">
+          No more posts! Maybe write one?
+        </div>
+      )}
       {!showCreatePostModal && (
-        <div
-          onClick={() => setShowCreatePostModal(true)}
-          className="fixed bottom-6 right-6 rounded-full h-10 w-20 text-s flex justify-center items-center bg-blue-500 font-bold text-white shadow-lg"
-        >
-          Tweet
+        <div className="fixed bottom-6 right-4">
+          <Button text="Tweet" callback={() => setShowCreatePostModal(true)} />
         </div>
       )}
       {showCreatePostModal && (

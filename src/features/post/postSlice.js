@@ -121,16 +121,18 @@ export const deletePostAsync = createAsyncThunk(
   }
 );
 
+const initialState = {
+  postList: [],
+  postLoading: false,
+  cursor: null,
+  hasMore: true,
+  isError: false,
+  errorMessage: "",
+};
+
 export const postSlice = createSlice({
   name: "post",
-  initialState: {
-    postList: [],
-    postLoading: false,
-    cursor: null,
-    hasMore: true,
-    isError: false,
-    errorMessage: "",
-  },
+  initialState,
   reducers: {},
   extraReducers: {
     [getFeedAsync.pending]: (state, action) => {
@@ -218,7 +220,7 @@ export const postSlice = createSlice({
           if (post._id === action.payload.updatedPost._id) {
             // return action.payload.updatedPost;
             const content = action.payload.updatedPost.content;
-            return {...post, content};
+            return { ...post, content };
           }
           return post;
         });

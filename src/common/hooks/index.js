@@ -1,2 +1,2 @@
 export { useAxios } from "./useAxios";
-export { useLoadData } from "./useLoadData";
+export { useInitialize } from "./useInitialize";

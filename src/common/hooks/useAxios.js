@@ -7,6 +7,7 @@ export const useAxios = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+
   const setAxiosBaseURL = (BASE_URL) => {
     axios.defaults.baseURL = BASE_URL;
   };
@@ -17,11 +18,13 @@ export const useAxios = () => {
       (response) => response,
       (error) => {
         if (error?.response?.status === UNAUTHORIZED) {
-          dispatch(logOutUserAsync()).then(() =>
-            navigate("/login", {
-              replace: true,
-              state: { from: location.pathname },
-            })
+          dispatch(logOutUserAsync()).then(
+            () =>
+              location.pathname !== "/" &&
+              navigate("/login", {
+                replace: true,
+                state: { from: location.pathname },
+              })
           );
         }
         return Promise.reject(error);

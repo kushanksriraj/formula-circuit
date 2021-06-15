@@ -1,23 +1,17 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { getUserId } from "../../../user/userSlice";
 import { EditPost } from "./EditPost";
-import {
-  getLoadingStatus,
-  likePostAsync,
-  reactToPostAsync,
-  unlikePostAsync,
-  unReactToPostAsync,
-} from "../../postSlice";
+import { getLoadingStatus } from "../../postSlice";
+import { PostSnippet } from "../Feed/PostSnippet";
+import { LoadingModal } from "../../../../common/Components";
 
 export const Post = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
-  const _id = useSelector(getUserId);
+  const userId = useSelector(getUserId);
   const postLoading = useSelector(getLoadingStatus);
-  const dispatch = useDispatch();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
@@ -37,101 +31,16 @@ export const Post = () => {
   }, [id, postLoading]);
 
   return (
-    <div className="flex flex-col items-center">
-      {loading && <div>Loading...</div>}
-      <div className="p-4 h-96 w-80 max-w-sm border-blue-200 border-2 my-8 rounded flex flex-col relative">
-        <div className="flex items-center mb-6">
-          <img
-            className="rounded-full w-10"
-            src={post?.author.profileURL}
-            alt={post?.author.name}
-            loading="lazy"
-          />
-          <div className="ml-4 flex-col">
-            <div className="font-semibold">{post?.author.name}</div>
-            <div className="text-gray-400 -mt-1">@{post?.author.username}</div>
-          </div>
-        </div>
-        <div
-          className="flex-grow"
-          onClick={() => navigate(`/post/${post?._id}`)}
-        >
-          {post?.content}
-        </div>
-        <div className="flex justify-evenly">
+    <div className="flex flex-col items-center pt-4">
+      {loading && <LoadingModal text="Loading..." />}
+      <div className="relative">
+        {post && <PostSnippet post={post} heightFullContent={true} />}
+        {post?.author._id === userId && (
           <div
-            onClick={() => {
-              if (post?.likedBy.includes(_id)) {
-                !postLoading &&
-                  dispatch(unlikePostAsync({ postId: post?._id }));
-              } else {
-                !postLoading && dispatch(likePostAsync({ postId: post?._id }));
-              }
-            }}
-          >
-            👍 {post?.likedBy.length} {post?.likedBy.includes(_id) && "YOU"}
-          </div>
-          <div
-            onClick={() => {
-              if (post?.reactions.claps.includes(_id)) {
-                !postLoading &&
-                  dispatch(
-                    unReactToPostAsync({ postId: post?._id, type: "claps" })
-                  );
-              } else {
-                !postLoading &&
-                  dispatch(
-                    reactToPostAsync({ postId: post?._id, type: "claps" })
-                  );
-              }
-            }}
-          >
-            👏 {post?.reactions.claps.length}{" "}
-            {post?.reactions.claps.includes(_id) && "YOU"}
-          </div>
-          <div
-            onClick={() => {
-              if (post?.reactions.love.includes(_id)) {
-                !postLoading &&
-                  dispatch(
-                    unReactToPostAsync({ postId: post?._id, type: "love" })
-                  );
-              } else {
-                !postLoading &&
-                  dispatch(
-                    reactToPostAsync({ postId: post?._id, type: "love" })
-                  );
-              }
-            }}
-          >
-            💕 {post?.reactions.love.length}{" "}
-            {post?.reactions.love.includes(_id) && "YOU"}
-          </div>
-          <div
-            onClick={() => {
-              if (post?.reactions.care.includes(_id)) {
-                !postLoading &&
-                  dispatch(
-                    unReactToPostAsync({ postId: post?._id, type: "care" })
-                  );
-              } else {
-                !postLoading &&
-                  dispatch(
-                    reactToPostAsync({ postId: post?._id, type: "care" })
-                  );
-              }
-            }}
-          >
-            🤗 {post?.reactions.care.length}{" "}
-            {post?.reactions.care.includes(_id) && "YOU"}
-          </div>
-        </div>
-        {post?.author._id === _id && (
-          <div
-            className="absolute top-2 right-2"
+            className="absolute top-6 right-2 material-icons-sharp text-4xl text-blue-400"
             onClick={() => setShowEditPostModal(true)}
           >
-            Edit
+            edit_note
           </div>
         )}
       </div>

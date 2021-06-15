@@ -1,0 +1,12 @@
+.spin__modal {
+  animation: rotation 0.85s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(359deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}

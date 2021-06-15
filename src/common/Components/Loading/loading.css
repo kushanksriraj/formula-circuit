@@ -1,0 +1,14 @@
+.spin {
+  font-size: 5rem;
+  font-weight: lighter;
+  animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(359deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
