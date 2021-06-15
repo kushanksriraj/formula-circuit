@@ -17,7 +17,7 @@ export const PostSnippet = React.forwardRef(
 
     return (
       <div
-        className="p-4 w-80 max-w-sm border-blue-200 border-2 my-4 rounded flex flex-col relative bg-white"
+        className="p-4 w-80 max-w-md border-blue-200 border-2 my-4 rounded flex flex-col relative bg-white"
         style={{
           height: heightFullContent ? "auto" : "15rem",
           minHeight: heightFullContent ? "15rem" : "",
