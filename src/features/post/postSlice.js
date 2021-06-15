@@ -133,7 +133,16 @@ const initialState = {
 export const postSlice = createSlice({
   name: "post",
   initialState,
-  reducers: {},
+  reducers: {
+    resetState(state) {
+      state.postList = [];
+      state.postLoading = false;
+      state.cursor = null;
+      state.hasMore = true;
+      state.isError = false;
+      state.errorMessage = "";
+    },
+  },
   extraReducers: {
     [getFeedAsync.pending]: (state, action) => {
       state.postLoading = true;
@@ -241,6 +250,7 @@ export const postSlice = createSlice({
 });
 
 export default postSlice.reducer;
+export const { resetState } = postSlice.actions;
 
 export const getPostFeed = createSelector(
   (state) => state.post,

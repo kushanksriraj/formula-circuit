@@ -35,8 +35,9 @@ export const signUpUserAsync = createAsyncThunk(
           username,
           email,
           password,
-          bio: "",
-          profileURL: "",
+          bio: "Hi there! I'm using Formula Circuit",
+          profileURL:
+            "https://res.cloudinary.com/formula-web-apps/image/upload/v1623766149/148-1486972_mystery-man-avatar-circle-clipart_kldmy3.jpg",
           followingList: [],
           followersList: [],
         },

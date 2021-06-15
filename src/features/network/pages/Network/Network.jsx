@@ -8,6 +8,7 @@ import {
   unFollowUserAsync,
 } from "../../../user/userSlice";
 import axios from "axios";
+import { Button, LoadingModal } from "../../../../common/Components";
 
 export const Network = ({ isCurrentUser }) => {
   const { username } = useParams();
@@ -57,13 +58,18 @@ export const Network = ({ isCurrentUser }) => {
   }, [currentUser, currentUserData, username]);
 
   return (
-    <div>
-      {(userLoading || loading) && <div>Loading...</div>}
-      <h2 className="font-bold">{data?.name}</h2>
-      <header className="font-bold">Followers</header>
+    <div className="flex flex-col items-center m-4">
+      {(userLoading || loading) && <LoadingModal text="Loading..." />}
+      <div className="font-semibold m-4 pt-8 text-xl">{data?.name}&apos;s</div>
+      <div className="font-semibold text-lg m-4 text-left w-full">
+        Followers
+      </div>
       {data?.followersList?.map((user) => {
         return (
-          <div key={user._id} className="flex items-center">
+          <div
+            key={user._id}
+            className="flex justify-between w-full px-4 border items-center p-2 my-1"
+          >
             <div
               className="flex items-center cursor-pointer"
               onClick={() => {
@@ -82,41 +88,50 @@ export const Network = ({ isCurrentUser }) => {
                   loading="lazy"
                 />
               </div>
-              <div className="ml-4 flex-col">
+              <div className="ml-4">
                 <div className="font-semibold">{user.name}</div>
               </div>
             </div>
             {user._id !== currentUserData._id && (
-              <button
-                onClick={() => {
-                  if (
+              <div>
+                <Button
+                  callback={() => {
+                    if (
+                      currentUserData?.followingList?.some(
+                        (id) => id === user._id
+                      )
+                    ) {
+                      dispatch(unFollowUserAsync({ userId: user._id }));
+                    } else {
+                      dispatch(followUserAsync({ userId: user._id }));
+                    }
+                  }}
+                  text={
                     currentUserData?.followingList?.some(
                       (id) => id === user._id
                     )
-                  ) {
-                    dispatch(unFollowUserAsync({ userId: user._id }));
-                  } else {
-                    dispatch(followUserAsync({ userId: user._id }));
+                      ? "Unfollow"
+                      : "Follow"
                   }
-                }}
-                className="rounded-full h-10 w-32 text-s flex justify-center items-center bg-blue-500 font-bold text-white shadow-lg"
-              >
-                {currentUserData?.followingList?.some((id) => id === user._id)
-                  ? "Unfollow"
-                  : "Follow"}
-              </button>
+                />
+              </div>
             )}
           </div>
         );
       })}
-      <header className="font-bold">Following</header>
+      <div className="font-semibold text-lg m-4 text-left w-full">
+        Following
+      </div>
       {data?.followingList
         ?.filter(
           (user) => !data?.followersList.some((obj) => obj._id === user._id)
         )
         .map((user) => {
           return (
-            <div key={user._id} className="flex items-center">
+            <div
+              key={user._id}
+              className="flex justify-between w-full px-4 border items-center p-2 my-1"
+            >
               <div
                 className="flex items-center cursor-pointer"
                 onClick={() => {
@@ -135,29 +150,33 @@ export const Network = ({ isCurrentUser }) => {
                     loading="lazy"
                   />
                 </div>
-                <div className="ml-4 flex-col">
+                <div className="ml-4">
                   <div className="font-semibold">{user.name}</div>
                 </div>
               </div>
               {user._id !== currentUserData._id && (
-                <button
-                  onClick={() => {
-                    if (
+                <div>
+                  <Button
+                    callback={() => {
+                      if (
+                        currentUserData.followingList.some(
+                          (id) => id === user._id
+                        )
+                      ) {
+                        dispatch(unFollowUserAsync({ userId: user._id }));
+                      } else {
+                        dispatch(followUserAsync({ userId: user._id }));
+                      }
+                    }}
+                    text={
                       currentUserData.followingList.some(
                         (id) => id === user._id
                       )
-                    ) {
-                      dispatch(unFollowUserAsync({ userId: user._id }));
-                    } else {
-                      dispatch(followUserAsync({ userId: user._id }));
+                        ? "Unfollow"
+                        : "Follow"
                     }
-                  }}
-                  className="rounded-full h-10 w-32 text-s flex justify-center items-center bg-blue-500 font-bold text-white shadow-lg"
-                >
-                  {currentUserData.followingList.some((id) => id === user._id)
-                    ? "Unfollow"
-                    : "Follow"}
-                </button>
+                  />
+                </div>
               )}
             </div>
           );
