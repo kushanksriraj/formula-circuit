@@ -33,11 +33,11 @@ export const EditPost = ({ setShowEditPostModal, post }) => {
   const color = { color: content.length > 350 ? "red" : "" };
 
   return (
-    <div className="fixed h-screen w-screen bg-gray-200 bg-opacity-95 flex justify-center">
-      <div className="relative w-full h-3/4 p-4 pt-8 mt-8">
+    <div className="fixed h-screen w-screen bg-gray-200 bg-opacity-95 flex justify-center md:px-80">
+      <div className="relative w-full h-3/4 p-4 pt-8 mt-8 md:px-52">
         <div
           onClick={() => setShowEditPostModal(false)}
-          className="material-icons-sharp absolute top-0 right-4 text-3xl bg-white rounded-full h-10 w-10 flex items-center justify-center p-2 text-blue-400"
+          className="material-icons-sharp absolute top-0 right-4 text-3xl bg-white rounded-full h-10 w-10 flex items-center justify-center p-2 text-blue-400 md:right-40 cursor-pointer"
         >
           clear
         </div>

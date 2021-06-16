@@ -29,7 +29,7 @@ export const Feed = () => {
         </div>
       )}
       {!showCreatePostModal && (
-        <div className="fixed bottom-6 right-4">
+        <div className="fixed bottom-6 right-4 md:right-48">
           <Button text="Tweet" callback={() => setShowCreatePostModal(true)} />
         </div>
       )}

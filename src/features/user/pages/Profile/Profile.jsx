@@ -48,7 +48,7 @@ export const Profile = ({ isCurrentUser }) => {
   }, [currentUser, currentUserData, username]);
 
   return (
-    <div className="pt-4 px-2 flex flex-col justify-center">
+    <div className="pt-4 px-2 flex flex-col justify-center md:max-w-lg md:m-auto">
       {(loading || userLoading) && <LoadingModal text="Loading..." />}
       <div className="flex items-center ml-8 mt-2">
         <div className="">
@@ -64,7 +64,7 @@ export const Profile = ({ isCurrentUser }) => {
           <div className="text-gray-400 -mt-1">@{data.username}</div>
         </div>
       </div>
-      <div className="flex justify-evenly cursor-pointer mt-4">
+      <div className="flex justify-evenly mt-4">
         <div className="flex flex-col items-center justify-center">
           <div className="font-semibold">{data?.followersList?.length}</div>
           <div className="text-gray-600 -mt-1">Followers</div>
@@ -74,7 +74,7 @@ export const Profile = ({ isCurrentUser }) => {
           <div className="text-gray-600 -mt-1">Following</div>
         </div>
         <div
-          className="text-blue-400 font-semibold flex items-end"
+          className="text-blue-400 font-semibold flex items-end cursor-pointer"
           onClick={() => {
             if (currentUser) {
               navigate("/network");
@@ -88,8 +88,8 @@ export const Profile = ({ isCurrentUser }) => {
         </div>
       </div>
       <div>
-        <h3 className="font-bold mt-4 ml-6">Bio</h3>
-        <div className="border m-4 p-4 rounded">{data.bio}</div>
+        <h3 className="font-bold mt-4 ml-6 md:px-12 md:mt-12">Bio</h3>
+        <div className="border m-4 p-4 rounded md:mx-16">{data.bio}</div>
       </div>
 
       {!currentUser && (
@@ -112,12 +112,12 @@ export const Profile = ({ isCurrentUser }) => {
       )}
 
       {!showEditProfileModal && currentUser && (
-        <div className="flex justify-end m-4">
+        <div className="flex justify-end m-4 md:mx-16">
           <Button callback={() => setShowEditProfileModal(true)} text="Edit" />
         </div>
       )}
       {currentUser && (
-        <div className="fixed bottom-6 right-6">
+        <div className="fixed bottom-6 right-6 md:right-44 md:bottom-10">
           <Button
             callback={() => {
               dispatch(resetState());

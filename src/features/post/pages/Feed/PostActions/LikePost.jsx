@@ -15,7 +15,7 @@ export const LikePost = ({ post }) => {
 
   return (
     <div
-      className="w-12 h-8 flex items-center justify-center rounded-md"
+      className="w-12 h-8 flex items-center justify-center rounded-md cursor-pointer"
       style={{
         backgroundColor: post.likedBy.includes(userId)
           ? "lightblue"

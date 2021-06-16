@@ -9,7 +9,6 @@ export const SignUp = () => {
   const location = useLocation();
   const pathRef = useRef(location.state);
   const userLoading = useSelector(getLoadingStatus);
-
   const isUserLoggedIn = useSelector(getLoginStatus);
 
   return (
@@ -18,12 +17,14 @@ export const SignUp = () => {
         <Navigate to={pathRef.current?.from || "/feed"} replace />
       )}
       {userLoading && <LoadingModal text="Signing up..." />}
-      <div className="p-4 bg-gray-50 mt-24 mx-4">
-        <div className="">
-          <div className="text-xl font-semibold text-center">
-            Sign up to continue
+      <div className="mt-24 max-w-sm mx-auto p-2">
+        <div className="p-4 bg-gray-50">
+          <div className="">
+            <div className="text-xl font-semibold text-center">
+              Sign up to continue
+            </div>
+            <SignUpForm />
           </div>
-          <SignUpForm />
         </div>
       </div>
     </>

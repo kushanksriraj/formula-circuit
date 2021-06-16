@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { io } from "socket.io-client";
+import { LoadingModal } from "../../../../common/Components";
 import { getUserId } from "../../../user/userSlice";
 import {
   getAllNotificationsAsync,
@@ -16,63 +17,65 @@ export const Notification = () => {
   const notificationList = useSelector(getAllNotifications);
   const notificationLoading = useSelector(getLoadingStatus);
   const dispatch = useDispatch();
-  console.log({ notificationList });
 
   useEffect(() => {
     dispatch(getAllNotificationsAsync());
     const socket = io("wss://formula-circuit-backend.kushanksriraj.repl.co");
     socket.on("connect", function () {
-      console.log("connected");
+      console.log("Connected via websocket");
     });
     socket.on("changeData", function (data) {
-      console.log({ data, id });
+      console.log("Recieved: ", { data, id });
       if (data.userId === id) {
         dispatch(addNewNotification({ data }));
       }
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleClick = ({ doc }) => {
+    switch (doc.action) {
+      case "LIKED":
+        return navigate(`/post/${doc.postId}`);
+
+      case "FOLLOWED":
+        return navigate(`/user/${doc.actionCreatorId.username}/profile`);
+
+      case "REACTED":
+        return navigate(`/post/${doc.postId}`);
+
+      default:
+        break;
+    }
+  };
 
   return (
-    <div>
-      <h2 className="text-2xl">
-        This is Notification page
-        <button onClick={() => navigate(-1)}>Go back</button>
-      </h2>
-      {notificationLoading && <h1>Loading...</h1>}
-      {notificationList.map((doc) => {
-        return (
-          <div key={doc._id}>
-            <div>
-              {doc.action === "LIKED" &&
-                `${doc.actionCreatorId.name} liked your post!`}
+    <div className="md:max-w-md md:m-auto pt-8">
+      {notificationLoading && <LoadingModal text="Loading..." />}
+      <div className="font-semibold m-4">Notifications</div>
+      <div className="flex flex-col items-center mb-4">
+        {notificationList.map((doc) => {
+          return (
+            <div
+              key={doc._id}
+              className="border p-3 w-72 truncate m-2 border-blue-400 bg-blue-100 cursor-pointer"
+              onClick={() => handleClick({ doc })}
+            >
+              <div>
+                {doc.action === "LIKED" &&
+                  `${doc.actionCreatorId.name} liked your post!`}
+              </div>
+              <div>
+                {doc.action === "REACTED" &&
+                  `${doc.actionCreatorId.name} reacted to your post!`}
+              </div>
+              <div>
+                {doc.action === "FOLLOWED" &&
+                  `${doc.actionCreatorId.name} started following you!`}
+              </div>
             </div>
-            <div>
-              {doc.action === "REACTED" &&
-                `${doc.actionCreatorId.name} reacted to your post!`}
-            </div>
-            <div>
-              {doc.action === "FOLLOWED" &&
-                `${doc.actionCreatorId.name} started following you!`}
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
-
-/**
- * Notification actions
- * - Chris liked your post:
- *     Who liked,
- *     link: your post
- *     link: localhost:3000/post/4terfdfds
- * - Chris reacted to your post
- *     who reacted,
- *     link: your post
- *     link: localhost:3000/post/4terfdfds
- * - Chris followed you
- *     who followed,
- *     link: your profile
- *     link: localhost:3000/user/chris/profile
- */

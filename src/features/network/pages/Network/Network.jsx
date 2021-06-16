@@ -21,8 +21,6 @@ export const Network = ({ isCurrentUser }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log({ currentUserData, userLoading });
-
   useEffect(() => {
     mountRef.current.isMounted = true;
     (async () => {
@@ -58,7 +56,7 @@ export const Network = ({ isCurrentUser }) => {
   }, [currentUser, currentUserData, username]);
 
   return (
-    <div className="flex flex-col items-center m-4">
+    <div className="flex flex-col items-center m-4 md:max-w-md md:m-auto md:mb-4">
       {(userLoading || loading) && <LoadingModal text="Loading..." />}
       <div className="font-semibold m-4 pt-8 text-xl">{data?.name}&apos;s</div>
       <div className="font-semibold text-lg m-4 text-left w-full">

@@ -49,7 +49,7 @@ export const PostSnippet = React.forwardRef(
         </div>
         <div
           className={
-            heightFullContent ? "flex-grow mb-4" : "flex-grow module line-clamp"
+            heightFullContent ? "flex-grow mb-4" : "flex-grow module line-clamp cursor-pointer"
           }
           onClick={() => navigate(`/post/${post._id}`)}
         >

@@ -39,11 +39,11 @@ export const EditProfile = ({ setShowEditProfileModal }) => {
   };
 
   return (
-    <div className="fixed top-8 -ml-2 h-screen w-screen bg-gray-300 bg-opacity-95 flex justify-center">
-      <div className="relative w-full h-3/4 p-4 pt-8 mt-8">
+    <div className="fixed top-8 -ml-2 h-screen w-screen bg-gray-300 bg-opacity-98 flex justify-center md:left-0 md:ml-0">
+      <div className="relative w-full h-3/4 p-4 pt-8 mt-8 md:max-w-md">
         <div
           onClick={() => setShowEditProfileModal(false)}
-          className="material-icons-sharp absolute top-4 right-4 text-3xl bg-white rounded-full h-10 w-10 flex items-center justify-center p-2 text-blue-400"
+          className="material-icons-sharp absolute top-4 right-4 text-3xl bg-white rounded-full h-10 w-10 flex items-center justify-center p-2 text-blue-400 cursor-pointer"
         >
           clear
         </div>

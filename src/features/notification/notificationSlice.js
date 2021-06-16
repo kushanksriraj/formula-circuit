@@ -27,10 +27,7 @@ export const notificationSlice = createSlice({
   },
   reducers: {
     addNewNotification(state, action) {
-      console.log({ action });
-      state.notificationList = state.notificationList.concat(
-        action.payload.data
-      );
+      state.notificationList = [action.payload.data, ...state.notificationList];
     },
   },
   extraReducers: {

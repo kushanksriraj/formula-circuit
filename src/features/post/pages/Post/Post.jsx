@@ -37,7 +37,7 @@ export const Post = () => {
         {post && <PostSnippet post={post} heightFullContent={true} />}
         {post?.author._id === userId && (
           <div
-            className="absolute top-6 right-2 material-icons-sharp text-4xl text-blue-400"
+            className="absolute top-6 right-2 material-icons-sharp text-4xl text-blue-400 cursor-pointer"
             onClick={() => setShowEditPostModal(true)}
           >
             edit_note

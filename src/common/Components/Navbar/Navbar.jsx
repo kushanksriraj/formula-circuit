@@ -11,7 +11,7 @@ export const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div className="fixed top-0 z-30 h-16 bg-gradient-to-r from-gray-50 to-gray-100 w-screen flex justify-between items-center p-2 shadow-sm">
+    <div className="fixed top-0 z-30 h-16 bg-gradient-to-r from-gray-50 to-gray-100 w-screen flex justify-between items-center p-2 shadow-sm md:px-48">
       <div
         className="flex items-center cursor-pointer"
         onClick={() => navigate("/feed")}

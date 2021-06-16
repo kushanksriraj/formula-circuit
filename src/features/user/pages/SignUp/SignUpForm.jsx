@@ -65,7 +65,7 @@ export const SignUpForm = () => {
             placeholder="Your password"
           />
           <div
-            className="material-icons-sharp absolute top-3 right-2"
+            className="material-icons-sharp absolute top-3 right-2 cursor-pointer"
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {showPassword ? "visibility" : "visibility_off"}
