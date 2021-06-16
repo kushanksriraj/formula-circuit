@@ -1,7 +1,9 @@
 # Formula Circuit
-A Social Media App built with React + Redux + Tailwind    
-Live link: https://circuit.netlify.app
+A Social Media App built with React + Redux + Tailwind      
 
+Live link: https://circuit.netlify.app      
+
+[Expres Server](https://replit.com/@kushanksriraj/formula-circuit-backend)
 
 ## Tech stack
 - Frontend
