@@ -1,4 +1,4 @@
-# Formula Circuit
+# Formula Circuit 🏁
 A Social Media App built with React + Redux + Tailwind      
 
 Live link: https://circuit.netlify.app      
@@ -24,3 +24,7 @@ Live link: https://circuit.netlify.app
 - Image upload 
 - Edit profile, posts
 - Cursor based pagination for post feed API
+
+### App screenshot
+
+![Circuit-ss](https://user-images.githubusercontent.com/64832695/122275892-d5928b80-cf01-11eb-8152-c9ba90bedf61.png)
