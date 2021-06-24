@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { getUserId } from "../../../user/userSlice";
 import { EditPost } from "./EditPost";
 import { getLoadingStatus } from "../../postSlice";
 import { PostSnippet } from "../Feed/PostSnippet";
@@ -10,7 +9,6 @@ import { LoadingModal } from "../../../../common/Components";
 
 export const Post = () => {
   const { id } = useParams();
-  const userId = useSelector(getUserId);
   const postLoading = useSelector(getLoadingStatus);
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,17 +29,15 @@ export const Post = () => {
   }, [id, postLoading]);
 
   return (
-    <div className="flex flex-col items-center pt-4">
+    <div className="flex flex-col items-center pt-4 m-auto">
       {loading && <LoadingModal text="Loading..." />}
-      <div className="relative">
-        {post && <PostSnippet post={post} heightFullContent={true} />}
-        {post?.author._id === userId && (
-          <div
-            className="absolute top-6 right-2 material-icons-sharp text-4xl text-blue-400 cursor-pointer"
-            onClick={() => setShowEditPostModal(true)}
-          >
-            edit_note
-          </div>
+      <div className="w-10/12 flex justify-center">
+        {post && (
+          <PostSnippet
+            post={post}
+            heightFullContent={true}
+            setShowEditPostModal={setShowEditPostModal}
+          />
         )}
       </div>
       {showEditPostModal && (

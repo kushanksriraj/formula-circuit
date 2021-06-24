@@ -11,13 +11,13 @@ import {
 } from "./PostActions";
 
 export const PostSnippet = React.forwardRef(
-  ({ post, heightFullContent }, ref) => {
+  ({ post, heightFullContent, setShowEditPostModal }, ref) => {
     const userId = useSelector(getUserId);
     const navigate = useNavigate();
 
     return (
       <div
-        className="p-4 w-80 max-w-md border-blue-200 border-2 my-4 rounded flex flex-col relative bg-white"
+        className="p-4 w-80 max-w-md border-blue-200 border-2 my-4 rounded flex flex-col relative bg-white md:w-full md:max-w-xl"
         style={{
           height: heightFullContent ? "auto" : "15rem",
           minHeight: heightFullContent ? "15rem" : "",
@@ -49,7 +49,9 @@ export const PostSnippet = React.forwardRef(
         </div>
         <div
           className={
-            heightFullContent ? "flex-grow mb-4" : "flex-grow module line-clamp cursor-pointer"
+            heightFullContent
+              ? "flex-grow mb-4"
+              : "flex-grow module line-clamp cursor-pointer md:px-12"
           }
           onClick={() => navigate(`/post/${post._id}`)}
         >
@@ -61,6 +63,15 @@ export const PostSnippet = React.forwardRef(
           <LoveReaction post={post} />
           <CareReaction post={post} />
         </div>
+
+        {post?.author._id === userId && heightFullContent && (
+          <div
+            className="absolute top-2 right-2 material-icons-sharp text-4xl text-blue-400 cursor-pointer"
+            onClick={() => setShowEditPostModal(true)}
+          >
+            edit_note
+          </div>
+        )}
       </div>
     );
   }
