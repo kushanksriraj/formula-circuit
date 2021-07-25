@@ -62,15 +62,15 @@ export const Notification = () => {
             >
               <div>
                 {doc.action === "LIKED" &&
-                  `👍 ${doc.actionCreatorId.name} liked your post!`}
+                  `👍 ${doc.actionCreatorId?.name} liked your post!`}
               </div>
               <div>
                 {doc.action === "REACTED" &&
-                  `👏 ${doc.actionCreatorId.name} reacted to your post!`}
+                  `👏 ${doc.actionCreatorId?.name} reacted to your post!`}
               </div>
               <div>
                 {doc.action === "FOLLOWED" &&
-                  `🏃‍♂️ ${doc.actionCreatorId.name} started following you!`}
+                  `🏃‍♂️ ${doc.actionCreatorId?.name} started following you!`}
               </div>
             </div>
           );
