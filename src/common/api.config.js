@@ -1,0 +1,1 @@
+export const BASE_URL = "https://formula-circuit-backend.kushanksriraj.repl.co"

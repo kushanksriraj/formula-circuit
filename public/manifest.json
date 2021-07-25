@@ -1,0 +1,9 @@
+{
+  "short_name": "Formula Circuit",
+  "name": "Social Media for Formula 1 Fans",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
